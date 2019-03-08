@@ -1,0 +1,21 @@
+{
+  "name": "sails-hook-prometheus",
+  "version": "0.1.0",
+  "description": "Provides Prometheus /metrics endpoint with stats.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Rataj <daniel.rataj@mall.cz>",
+  "license": "MIT",
+  "dependencies": {
+    "sails": "^1.0.2",
+    "prom-client": "^11.2.1",
+    "url-value-parser": "^2.0.1",
+    "url": "^0.11.0"
+  },
+  "sails": {
+    "isHook": true,
+    "hookName": "prometheus"
+  }
+}
