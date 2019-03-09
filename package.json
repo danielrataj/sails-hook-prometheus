@@ -1,25 +1,38 @@
 {
   "name": "sails-hook-prometheus",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Provides Prometheus /metrics endpoint with stats.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "semistandard src/*.js test/*.js",
+    "tests": "npm run lint && node ./node_modules/mocha/bin/mocha -b"
   },
   "author": "Daniel Rataj <daniel.rataj@mall.cz>",
   "license": "MIT",
   "dependencies": {
-    "sails": "^1.1.0",
     "prom-client": "^11.2.1",
-    "url-value-parser": "^2.0.1",
-    "url": "^0.11.0"
+    "sails": "^1.1.0",
+    "url": "^0.11.0",
+    "url-value-parser": "^2.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "semistandard": "^13.0.1"
   },
   "sails": {
     "isHook": true,
     "hookName": "prometheus"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/danielrataj/sails-hook-prometheus"
-  }
+    "type": "git",
+    "url": "https://github.com/danielrataj/sails-hook-prometheus"
+  },
+  "engines": {
+    "node": ">= 0.10.0",
+    "npm": ">= 1.4.0"
+  },
+  "keywords": [
+    "sails",
+    "prometheus"
+  ]
 }
