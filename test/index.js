@@ -1,4 +1,6 @@
 /* global describe it before after */
+const _ = require('underscore');
+const assert = require('assert');
 
 var Sails = require('sails').Sails;
 
@@ -25,6 +27,7 @@ describe('Lift Sails ::', function () {
       function (err, _sails) {
         if (err) return done(err);
         sails = _sails;
+
         return done();
       }
     );
@@ -43,5 +46,17 @@ describe('Lift Sails ::', function () {
   // Test that Sails can lift with the hook in place
   it('sails does not crash', function () {
     return true;
+  });
+
+  it('prometheus is an object', function () {
+    assert(_.isObject(sails.hooks.prometheus));
+  });
+
+  it('prometheus defaults is an object', function () {
+    assert(_.isObject(sails.hooks.prometheus.defaults));
+  });
+
+  it('prometheus initialize is a function', function () {
+    assert(_.isFunction(sails.hooks.prometheus.initialize));
   });
 });

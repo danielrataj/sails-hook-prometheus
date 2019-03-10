@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "mocha": "^6.0.2",
-    "semistandard": "^13.0.1"
+    "semistandard": "^13.0.1",
+    "underscore": "^1.9.1"
   },
   "sails": {
     "isHook": true,
