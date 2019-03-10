@@ -1,6 +1,9 @@
 [![Build Status](https://api.travis-ci.org/danielrataj/sails-hook-prometheus.svg?branch=master)](https://travis-ci.org/danielrataj/sails-hook-prometheus)
-![npm](https://img.shields.io/npm/v/sails-hook-prometheus.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=danielrataj_sails-hook-prometheus&metric=alert_status)](https://sonarcloud.io/dashboard?id=danielrataj_sails-hook-prometheus)
+![npm](https://img.shields.io/npm/dt/sails-hook-prometheus.svg)
+![npm](https://img.shields.io/npm/v/sails-hook-prometheus.svg)
+![node](https://img.shields.io/node/v/sails-hook-prometheus.svg)
+![NPM](https://img.shields.io/npm/l/sails-hook-prometheus.svg)
 
 # sails-hook-prometheus
 
