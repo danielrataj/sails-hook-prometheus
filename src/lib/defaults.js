@@ -31,4 +31,4 @@ module.exports = {
       help: 'The number of requests served'
     }
   }
-}
+};
