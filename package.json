@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "lint": "semistandard src/*.js test/*.js",
-    "tests": "npm run lint && node ./node_modules/mocha/bin/mocha -b"
+    "test": "npm run lint && node ./node_modules/mocha/bin/mocha -b"
   },
   "author": "Daniel Rataj <daniel.rataj@mall.cz>",
   "license": "MIT",
