@@ -6,6 +6,7 @@ module.exports = {
     },
     httpMetric: {
       enabled: true,
+      type: 'histogram',
       name: `http_request_duration_seconds`,
       buckets: [0.003, 0.03, 0.1, 0.3, 1.5, 10],
       help: `duration histogram of http responses labeled with: `,
@@ -13,6 +14,7 @@ module.exports = {
         exclude: [
           '\\.css$',
           '\\.js$',
+          '\\.map$',
           '\\.(ico|gif|jpg|jpeg|png)$',
           '\\.(eot|ttf|woff|woff2|svg)$'
         ]
@@ -29,4 +31,4 @@ module.exports = {
       help: 'The number of requests served'
     }
   }
-};
+}

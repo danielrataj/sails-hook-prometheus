@@ -17,6 +17,7 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
     - [`defaultMetrics.prefix` (string)](#defaultmetricsprefix-string)
     - [`httpMetric.enabled` (boolean)](#httpmetricenabled-boolean)
     - [`httpMetric.name` (string)](#httpmetricname-string)
+    - [`httpMetric.type` (string)](#httpmetrictype-string)
     - [`httpMetric.help` (string)](#httpmetrichelp-string)
     - [`httpMetric.buckets` (array of numbers)](#httpmetricbuckets-array-of-numbers)
     - [`httpMetric.route.exclude` (array of strings)](#httpmetricrouteexclude-array-of-strings)
@@ -92,6 +93,18 @@ module.exports.prometheus = {
 ```
 
 Help text displayed as a metric title under _/metrics_ page.
+
+### `httpMetric.type` (string)
+
+```js
+module.exports.prometheus = {
+  httpMetric: {
+    type: `histogram`
+  }
+}
+```
+
+You can select between _histogram_ or _summary_.
 
 ### `httpMetric.help` (string)
 

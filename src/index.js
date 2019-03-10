@@ -32,14 +32,17 @@ module.exports = function (sails) {
                 return next();
               }
             }
-            stats.httpMetric.histogram.startTimer({
+
+            let endTimer = stats.httpMetric.histogram.startTimer({
               status_code: req.res.statusCode,
               method: req.method,
               path: req.url
-            })();
+            });
 
             res.once('finish', function onceFinish () {
               stats.throughputMetric.inc();
+
+              endTimer();
             });
           }
 

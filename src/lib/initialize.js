@@ -7,8 +7,12 @@ module.exports = function (sails, hook, stats, cb) {
         const labels = [`status_code`, `method`, `path`];
         const buckets = sails.config[hook.configKey].httpMetric.buckets;
 
+        const type =
+          sails.config[hook.configKey].httpMetric.type.charAt(0).toUpperCase() +
+          sails.config[hook.configKey].httpMetric.type.slice(1);
+
         stats.httpMetric = {
-          histogram: new promClient.Histogram({
+          histogram: new promClient[type]({
             name: sails.config[hook.configKey].httpMetric.name,
             help: `${
               sails.config[hook.configKey].httpMetric.help
