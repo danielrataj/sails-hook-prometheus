@@ -18,7 +18,8 @@ module.exports = {
           '\\.(ico|gif|jpg|jpeg|png)$',
           '\\.(eot|ttf|woff|woff2|svg)$'
         ]
-      }
+      },
+      urlQueryString: true
     },
     upMetric: {
       enabled: true,

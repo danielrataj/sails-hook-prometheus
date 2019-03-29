@@ -33,10 +33,16 @@ module.exports = function (sails) {
               }
             }
 
+            let url = req.path;
+
+            if (sails.config[hook.configKey].httpMetric.urlQueryString) {
+              url = req.url;
+            }
+
             let endTimer = stats.httpMetric.histogram.startTimer({
               status_code: req.res.statusCode,
               method: req.method,
-              path: req.url
+              path: url
             });
 
             res.once('finish', function onceFinish () {
