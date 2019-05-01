@@ -28,6 +28,7 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
     - [`throughputMetric.enabled` (boolean)](#throughputmetricenabled-boolean)
     - [`throughputMetric.name` (string)](#throughputmetricname-string)
     - [`throughputMetric.help` (string)](#throughputmetrichelp-string)
+    - [`sockets.enabled` (boolean)](#socketsenabled-boolean)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -197,7 +198,7 @@ module.exports.prometheus = {
 ```js
 module.exports.prometheus = {
   throughputMetric: {
-    enabled: true
+    enabled: false
   }
 }
 ```
@@ -223,6 +224,18 @@ module.exports.prometheus = {
   }
 }
 ```
+
+### `sockets.enabled` (boolean)
+
+```js
+module.exports.prometheus = {
+  sockets: {
+    enabled: false
+  }
+}
+```
+
+Log socket requests as well. Due to the fact that status code is reserved for HTTP protocol only, the result of status code is always going to be 0.
 
 # Contributors
 

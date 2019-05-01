@@ -16,6 +16,10 @@ module.exports = function (sails) {
     routes: {
       before: {
         'all /*': function (req, res, next) {
+          if (req.isSocket && !sails.config[hook.configKey].sockets.enabled) {
+            return next();
+          }
+
           if (skipRoutes.indexOf(req.url) !== -1) {
             return next();
           }
@@ -40,7 +44,7 @@ module.exports = function (sails) {
             }
 
             let endTimer = stats.httpMetric.histogram.startTimer({
-              status_code: req.res.statusCode,
+              status_code: (req.res && req.res.statusCode) || 0,
               method: req.method,
               path: url
             });

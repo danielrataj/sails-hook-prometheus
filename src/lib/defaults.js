@@ -30,6 +30,9 @@ module.exports = {
       enabled: true,
       name: `throughput`,
       help: 'The number of requests served'
+    },
+    sockets: {
+      enabled: false
     }
   }
 };
