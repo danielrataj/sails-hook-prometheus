@@ -44,7 +44,7 @@ module.exports = function (sails) {
             }
 
             let endTimer = stats.httpMetric.histogram.startTimer({
-              status_code: (req.res && req.res.statusCode) || 0,
+              status_code: (req.res && req.res.statusCode) || res.statusCode || 0,
               method: req.method,
               path: url
             });
