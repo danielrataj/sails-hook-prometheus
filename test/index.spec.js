@@ -1,62 +1,62 @@
 /* global describe it before after */
-const _ = require('underscore');
-const assert = require('assert');
+const _ = require('underscore')
+const assert = require('assert')
 
-var Sails = require('sails').Sails;
+var Sails = require('sails').Sails
 
 describe('Lift Sails ::', function () {
   // Var to hold a running sails app instance
-  var sails;
+  var sails
 
   // Before running any tests, attempt to lift Sails
   before(function (done) {
     // Hook will timeout in 10 seconds
-    this.timeout(11000);
+    this.timeout(11000)
 
     // Attempt to lift sails
     Sails().lift(
       {
         hooks: {
           // Load the hook
-          prometheus: require('../'),
+          prometheus: require('../src'),
           // Skip grunt (unless your hook uses it)
           grunt: false
         },
         log: { level: 'error' }
       },
       function (err, _sails) {
-        if (err) return done(err);
-        sails = _sails;
+        if (err) return done(err)
+        sails = _sails
 
-        return done();
+        return done()
       }
-    );
-  });
+    )
+  })
 
   // After tests are complete, lower Sails
   after(function (done) {
     // Lower Sails (if it successfully lifted)
     if (sails) {
-      return sails.lower(done);
+      return sails.lower(done)
     }
     // Otherwise just return
-    return done();
-  });
+    return done()
+  })
 
   // Test that Sails can lift with the hook in place
   it('sails does not crash', function () {
-    return true;
-  });
+    return true
+  })
 
   it('prometheus is an object', function () {
-    assert(_.isObject(sails.hooks.prometheus));
-  });
+    assert(_.isObject(sails.hooks.prometheus))
+  })
 
   it('prometheus defaults is an object', function () {
-    assert(_.isObject(sails.hooks.prometheus.defaults));
-  });
+    assert(_.isObject(sails.hooks.prometheus.defaults))
+  })
 
   it('prometheus initialize is a function', function () {
-    assert(_.isFunction(sails.hooks.prometheus.initialize));
-  });
-});
+    assert(_.isFunction(sails.hooks.prometheus.initialize))
+  })
+})
