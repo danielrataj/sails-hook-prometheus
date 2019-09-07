@@ -29,6 +29,11 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
     - [`throughputMetric.name` (string)](#throughputmetricname-string)
     - [`throughputMetric.help` (string)](#throughputmetrichelp-string)
     - [`sockets.enabled` (boolean)](#socketsenabled-boolean)
+  - [Custom metrics](#custom-metrics)
+    - [Add counter metric](#add-counter-metric)
+    - [Add gauge metric](#add-gauge-metric)
+  - [Labels for custom metrics](#labels-for-custom-metrics)
+    - [Example for counter metric](#example-for-counter-metric)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -236,6 +241,57 @@ module.exports.prometheus = {
 ```
 
 Log socket requests as well. Due to the fact that status code is reserved for HTTP protocol only, the result of status code is always going to be 0.
+
+## Custom metrics
+You can add two kind of metrics on your own:
+
+- counter (increase a metric)
+- gauge (increase or decrease a metric)
+
+### Add counter metric
+```js
+let counter = sails.hooks.prometheus.counter.setup({
+  name: `testcounter`,
+  help: `help to the metric`
+})
+
+counter.inc() // increase a metric by 1
+counter.inc(2) // increase a metric by 2
+counter.inc(10) // increase a metric by 10
+```
+
+### Add gauge metric
+```js
+let gauge = sails.hooks.prometheus.gauge.setup({
+  name: `testgauged`,
+  help: `help to the metric`
+})
+
+gauge.inc(10) // increase a metric by 10
+gauge.dec(2) // decreate a metric by 2
+```
+
+## Labels for custom metrics
+Both count and gauge metrics comes with labels feature as well.
+
+### Example for counter metric
+
+```js
+let counter = sails.hooks.prometheus.counter.setup({
+  name: `testcounter`,
+  help: `help to the metric`
+  labelNames: [`counter1`, `counter2`]
+})
+
+counter.inc({
+  amount: 1,
+  labels: {
+    counter1: `value`
+  }
+})
+```
+
+*Note:* Gauge metric goes the same.
 
 # Contributors
 

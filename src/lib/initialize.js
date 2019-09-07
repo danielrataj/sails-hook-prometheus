@@ -1,15 +1,15 @@
-const promClient = require('prom-client');
+const promClient = require('prom-client')
 
 module.exports = function (sails, hook, stats, cb) {
   if (sails.hooks.http) {
     sails.after('hook:http:loaded', function () {
       if (sails.config[hook.configKey].httpMetric.enabled) {
-        const labels = [`status_code`, `method`, `path`];
-        const buckets = sails.config[hook.configKey].httpMetric.buckets;
+        const labels = ['status_code', 'method', 'path']
+        const buckets = sails.config[hook.configKey].httpMetric.buckets
 
         const type =
           sails.config[hook.configKey].httpMetric.type.charAt(0).toUpperCase() +
-          sails.config[hook.configKey].httpMetric.type.slice(1);
+          sails.config[hook.configKey].httpMetric.type.slice(1)
 
         stats.httpMetric = {
           histogram: new promClient[type]({
@@ -21,7 +21,7 @@ module.exports = function (sails, hook, stats, cb) {
             buckets: buckets,
             prefix: sails.config[hook.configKey].httpMetric.prefix
           })
-        };
+        }
       }
 
       // server is up
@@ -29,9 +29,9 @@ module.exports = function (sails, hook, stats, cb) {
         stats.up = new promClient.Gauge({
           name: sails.config[hook.configKey].upMetric.name,
           help: sails.config[hook.configKey].upMetric.help
-        });
+        })
 
-        stats.up.set(1);
+        stats.up.set(1)
       }
 
       // server is up
@@ -39,15 +39,15 @@ module.exports = function (sails, hook, stats, cb) {
         stats.throughputMetric = new promClient.Counter({
           name: sails.config[hook.configKey].throughputMetric.name,
           help: sails.config[hook.configKey].throughputMetric.help
-        });
+        })
       }
 
       if (sails.config[hook.configKey].defaultMetrics.enabled) {
         promClient.collectDefaultMetrics({
           prefix: sails.config[hook.configKey].defaultMetrics.prefix
-        });
+        })
       }
-    });
+    })
   }
-  return cb();
-};
+  return cb()
+}
