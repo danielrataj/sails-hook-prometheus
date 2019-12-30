@@ -1,6 +1,6 @@
 {
   "name": "sails-hook-prometheus",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Provides Prometheus /metrics endpoint with stats.",
   "main": "src/index.js",
   "scripts": {

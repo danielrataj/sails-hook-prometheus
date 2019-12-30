@@ -13,25 +13,25 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
   - [Installation](#installation)
 - [Configuration](#configuration)
   - [Configuration in depth](#configuration-in-depth)
-    - [`defaultMetrics.enabled` (boolean)](#defaultmetricsenabled-boolean)
-    - [`defaultMetrics.prefix` (string)](#defaultmetricsprefix-string)
-    - [`httpMetric.enabled` (boolean)](#httpmetricenabled-boolean)
-    - [`httpMetric.name` (string)](#httpmetricname-string)
-    - [`httpMetric.type` (string)](#httpmetrictype-string)
-    - [`httpMetric.help` (string)](#httpmetrichelp-string)
-    - [`httpMetric.buckets` (array of numbers)](#httpmetricbuckets-array-of-numbers)
-    - [`httpMetric.route.exclude` (array of strings)](#httpmetricrouteexclude-array-of-strings)
-    - [`httpMetric.urlQueryString` (boolean)](#httpmetricurlquerystring-boolean)
-    - [`upMetric.enabled` (boolean)](#upmetricenabled-boolean)
-    - [`upMetric.name` (string)](#upmetricname-string)
-    - [`upMetric.help` (string)](#upmetrichelp-string)
-    - [`throughputMetric.enabled` (boolean)](#throughputmetricenabled-boolean)
-    - [`throughputMetric.name` (string)](#throughputmetricname-string)
-    - [`throughputMetric.help` (string)](#throughputmetrichelp-string)
-    - [`sockets.enabled` (boolean)](#socketsenabled-boolean)
+    - [defaultMetrics.enabled (boolean)](#defaultmetricsenabled-boolean)
+    - [defaultMetrics.prefix (string)](#defaultmetricsprefix-string)
+    - [httpMetric.enabled (boolean)](#httpmetricenabled-boolean)
+    - [httpMetric.name (string)](#httpmetricname-string)
+    - [httpMetric.type (string)](#httpmetrictype-string)
+    - [httpMetric.help (string)](#httpmetrichelp-string)
+    - [httpMetric.buckets (array of numbers)](#httpmetricbuckets-array-of-numbers)
+    - [httpMetric.route.exclude (array of strings)](#httpmetricrouteexclude-array-of-strings)
+    - [httpMetric.urlQueryString (boolean)](#httpmetricurlquerystring-boolean)
+    - [upMetric.enabled (boolean)](#upmetricenabled-boolean)
+    - [upMetric.name (string)](#upmetricname-string)
+    - [upMetric.help (string)](#upmetrichelp-string)
+    - [throughputMetric.enabled (boolean)](#throughputmetricenabled-boolean)
+    - [throughputMetric.name (string)](#throughputmetricname-string)
+    - [throughputMetric.help (string)](#throughputmetrichelp-string)
+    - [sockets.enabled (boolean)](#socketsenabled-boolean)
   - [Custom metrics](#custom-metrics)
-    - [Add counter metric](#add-counter-metric)
-    - [Add gauge metric](#add-gauge-metric)
+    - [Counter metric](#counter-metric)
+    - [Gauge metric](#gauge-metric)
   - [Labels for custom metrics](#labels-for-custom-metrics)
     - [Example for counter metric](#example-for-counter-metric)
 - [Contributors](#contributors)
@@ -248,27 +248,53 @@ You can add two kind of metrics on your own:
 - counter (increase a metric)
 - gauge (increase or decrease a metric)
 
-### Add counter metric
+### Counter metric
 ```js
 let counter = sails.hooks.prometheus.counter.setup({
   name: `testcounter`,
   help: `help to the metric`
 })
 
-counter.inc() // increase a metric by 1
-counter.inc(2) // increase a metric by 2
-counter.inc(10) // increase a metric by 10
+counter.inc() // increase a metric by default 1
+
+ // increase a metric by 2
+counter.inc({
+  amount: 2
+})
+
+// increase a metric by 10
+counter.inc({
+  amount: 10
+})
 ```
 
-### Add gauge metric
+### Gauge metric
 ```js
 let gauge = sails.hooks.prometheus.gauge.setup({
   name: `testgauged`,
   help: `help to the metric`
 })
 
-gauge.inc(10) // increase a metric by 10
-gauge.dec(2) // decreate a metric by 2
+// increase a metric by default 1
+gauge.inc()
+
+// increase a metric by 10
+gauge.inc({
+  amount: 10
+})
+
+// decrease a metric by default 1
+gauge.dec()
+
+// decrease a metric by 2
+gauge.dec({
+  amount: 2
+})
+
+// set a metric to 100
+gauge.set({
+  amount: 100
+})
 ```
 
 ## Labels for custom metrics
