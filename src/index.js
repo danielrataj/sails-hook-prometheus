@@ -44,7 +44,6 @@ module.exports = function (sails) {
             }
 
             const endTimer = stats.httpMetric.histogram.startTimer({
-              status_code: (req.res && req.res.statusCode) || res.statusCode || 0,
               method: req.method,
               path: url
             })
@@ -52,7 +51,9 @@ module.exports = function (sails) {
             res.once('finish', function onceFinish () {
               stats.throughputMetric.inc()
 
-              endTimer()
+              endTimer({
+                status_code: (req.res && req.res.statusCode) || res.statusCode || 0,
+              })
             })
           }
 
