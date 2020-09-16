@@ -13,27 +13,28 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
   - [Installation](#installation)
 - [Configuration](#configuration)
   - [Configuration in depth](#configuration-in-depth)
-    - [defaultMetrics.enabled (boolean)](#defaultmetricsenabled-boolean)
-    - [defaultMetrics.prefix (string)](#defaultmetricsprefix-string)
-    - [httpMetric.enabled (boolean)](#httpmetricenabled-boolean)
-    - [httpMetric.name (string)](#httpmetricname-string)
-    - [httpMetric.type (string)](#httpmetrictype-string)
-    - [httpMetric.help (string)](#httpmetrichelp-string)
-    - [httpMetric.buckets (array of numbers)](#httpmetricbuckets-array-of-numbers)
-    - [httpMetric.route.exclude (array of strings)](#httpmetricrouteexclude-array-of-strings)
-    - [httpMetric.urlQueryString (boolean)](#httpmetricurlquerystring-boolean)
-    - [upMetric.enabled (boolean)](#upmetricenabled-boolean)
-    - [upMetric.name (string)](#upmetricname-string)
-    - [upMetric.help (string)](#upmetrichelp-string)
-    - [throughputMetric.enabled (boolean)](#throughputmetricenabled-boolean)
-    - [throughputMetric.name (string)](#throughputmetricname-string)
-    - [throughputMetric.help (string)](#throughputmetrichelp-string)
-    - [sockets.enabled (boolean)](#socketsenabled-boolean)
+    - [`defaultMetrics.enabled` (boolean)](#defaultmetricsenabled-boolean)
+    - [`defaultMetrics.prefix` (string)](#defaultmetricsprefix-string)
+    - [`httpMetric.enabled` (boolean)](#httpmetricenabled-boolean)
+    - [`httpMetric.name` (string)](#httpmetricname-string)
+    - [`httpMetric.type` (string)](#httpmetrictype-string)
+    - [`httpMetric.help` (string)](#httpmetrichelp-string)
+    - [`httpMetric.buckets` (array of numbers)](#httpmetricbuckets-array-of-numbers)
+    - [`httpMetric.route.exclude` (array of strings)](#httpmetricrouteexclude-array-of-strings)
+    - [`httpMetric.urlQueryString` (boolean)](#httpmetricurlquerystring-boolean)
+    - [`upMetric.enabled` (boolean)](#upmetricenabled-boolean)
+    - [`upMetric.name` (string)](#upmetricname-string)
+    - [`upMetric.help` (string)](#upmetrichelp-string)
+    - [`throughputMetric.enabled` (boolean)](#throughputmetricenabled-boolean)
+    - [`throughputMetric.name` (string)](#throughputmetricname-string)
+    - [`throughputMetric.help` (string)](#throughputmetrichelp-string)
+    - [`sockets.enabled` (boolean)](#socketsenabled-boolean)
   - [Custom metrics](#custom-metrics)
     - [Counter metric](#counter-metric)
     - [Gauge metric](#gauge-metric)
   - [Labels for custom metrics](#labels-for-custom-metrics)
     - [Example for counter metric](#example-for-counter-metric)
+    - [Custom `/metrics' endpoint](#custom-metrics-endpoint)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -47,7 +48,7 @@ npm install --save sails-hook-prometheus
 
 # Configuration
 
-You can override default configuration. Create a file in `/config/prometheus.file` with configuration values listed bellow.
+You can override default configuration. Create a file in `/config/prometheus.js` with configuration values listed bellow.
 
 ## Configuration in depth
 
@@ -318,6 +319,15 @@ counter.inc({
 ```
 
 *Note:* Gauge metric goes the same.
+
+### Custom `/metrics' endpoint
+You can configure your own public route by editing `/config/routes.js` file.
+
+```js
+module.exports.routes = {
+  'GET /api/v1/metrics': 'prometheus/metrics',
+}
+```
 
 # Contributors
 

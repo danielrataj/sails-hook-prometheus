@@ -10,7 +10,22 @@ module.exports = function (sails) {
     defaults: require('./lib/defaults'),
     initialize: function (cb) {
       hook = this
+
       return require('./lib/initialize')(sails, hook, stats, cb)
+    },
+
+    configure: () => {
+      sails.config.policies[sails.config.prometheus.router.identity] = [true]
+    },
+
+    registerActions: function (cb) {
+      sails.registerAction(function (_, res) {
+        return res
+          .status(200)
+          .set('Content-Type', promClient.register.contentType)
+          .send(promClient.register.metrics())
+      }, sails.config[hook.configKey].router.identity)
+      return cb()
     },
 
     routes: {
@@ -52,14 +67,14 @@ module.exports = function (sails) {
               stats.throughputMetric.inc()
 
               endTimer({
-                status_code: (req.res && req.res.statusCode) || res.statusCode || 0,
+                status_code: (req.res && req.res.statusCode) || res.statusCode || 0
               })
             })
           }
 
           return next()
         },
-        'get /metrics': function (req, res, next) {
+        '/metrics': function (req, res, next) {
           return res
             .status(200)
             .set('Content-Type', promClient.register.contentType)

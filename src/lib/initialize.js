@@ -49,5 +49,6 @@ module.exports = function (sails, hook, stats, cb) {
       }
     })
   }
-  return cb()
+
+  return sails.hooks.prometheus.registerActions(cb)
 }
