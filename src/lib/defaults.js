@@ -4,6 +4,9 @@ module.exports = {
       enabled: true,
       prefix: ''
     },
+    router: {
+      identity: 'prometheus/metrics'
+    },
     httpMetric: {
       enabled: true,
       type: 'histogram',
