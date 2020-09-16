@@ -34,7 +34,7 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
     - [Gauge metric](#gauge-metric)
   - [Labels for custom metrics](#labels-for-custom-metrics)
     - [Example for counter metric](#example-for-counter-metric)
-  - [Custom `/metrics' endpoint](#custom-metrics-endpoint)
+  - [Custom `/metrics` endpoint](#custom-metrics-endpoint)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -320,7 +320,7 @@ counter.inc({
 
 *Note:* Gauge metric goes the same.
 
-## Custom `/metrics' endpoint
+## Custom `/metrics` endpoint
 You can configure your own public route by editing `/config/routes.js` file.
 
 ```js
