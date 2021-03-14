@@ -67,54 +67,64 @@ module.exports = function (sails) {
       }
     },
 
-    counter: {
-      counters: { },
+    counter: (function () {
+      const counters = { }
 
-      setup ({ name, help, labelNames = [] }) {
-        this.counters[name] = {
-          metric: new promClient.Counter({
-            name,
-            help,
-            labelNames
-          }),
-
-          inc ({ amount = 1, labels = {} }) {
-            this.metric.inc(labels, amount)
-            return this
+      return {
+        setup ({ name, help, labelNames = [] }) {
+          if (counters[name]) {
+            return
           }
+          counters[name] = {
+            _metric: new promClient.Counter({
+              name,
+              help,
+              labelNames
+            }),
+
+            inc ({ amount = 1, labels = {} }) {
+              this._metric.inc(labels, amount)
+              return this
+            }
+          }
+          return counters[name]
         }
-        return this.counters[name]
       }
-    },
+    }()),
 
-    gauge: {
-      _metric: null,
+    gauge: function () {
+      const gauges = { }
 
-      setup ({ name, help, labelNames = [] }) {
-        if (!this._metric) {
-          this._metric = new promClient.Gauge({
-            name,
-            help,
-            labelNames
-          })
+      return {
+        setup ({ name, help, labelNames = [] }) {
+          if (gauges[name]) {
+            return
+          }
+          gauges[name] = {
+            _metric: new promClient.Gauge({
+              name,
+              help,
+              labelNames
+            }),
+
+            inc ({ amount = 1, labels = {} }) {
+              this._metric.inc(labels, amount)
+              return this
+            },
+
+            set ({ amount = 1, labels = {} }) {
+              this._metric.set(labels, amount)
+              return this
+            },
+
+            dec ({ amount = 1, labels = {} }) {
+              this._metric.dec(labels, amount)
+              return this
+            }
+          }
+
+          return gauges[name]
         }
-
-        return this
-      },
-
-      inc ({ amount = 1, labels = {} }) {
-        this._metric.inc(labels, amount)
-        return this
-      },
-
-      set ({ amount = 1, labels = {} }) {
-        this._metric.set(labels, amount)
-        return this
-      },
-
-      dec ({ amount = 1, labels = {} }) {
-        this._metric.dec(labels, amount)
-        return this
       }
     }
   }
