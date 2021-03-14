@@ -92,7 +92,7 @@ module.exports = function (sails) {
       }
     }()),
 
-    gauge: function () {
+    gauge: (function () {
       const gauges = { }
 
       return {
@@ -126,6 +126,6 @@ module.exports = function (sails) {
           return gauges[name]
         }
       }
-    }
+    }())
   }
 }
