@@ -68,22 +68,22 @@ module.exports = function (sails) {
     },
 
     counter: {
-      _metric: null,
+      counters: { },
 
       setup ({ name, help, labelNames = [] }) {
-        if (!this._metric) {
-          this._metric = new promClient.Counter({
+        this.counters[name] = {
+          metric: new promClient.Counter({
             name,
             help,
             labelNames
-          })
-        }
-        return this
-      },
+          }),
 
-      inc ({ amount = 1, labels = {} }) {
-        this._metric.inc(labels, amount)
-        return this
+          inc ({ amount = 1, labels = {} }) {
+            this.metric.inc(labels, amount)
+            return this
+          }
+        }
+        return this.counters[name]
       }
     },
 
