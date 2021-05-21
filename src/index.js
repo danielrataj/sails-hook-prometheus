@@ -66,6 +66,21 @@ module.exports = function (sails) {
             res.once('finish', function onceFinish () {
               stats.throughputMetric.inc()
 
+              if (sails.config[hook.configKey].httpMetric.attachOn5xxEnabled) {
+                const keys = sails.config[hook.configKey].httpMetric.attachOn5xx
+
+                const extraData = {}
+
+                for (let i = 0; i < keys.length; i++) {
+                  extraData[keys[i]] = req[keys[i]]
+                }
+
+                endTimer({
+                  status_code: (req.res && req.res.statusCode) || res.statusCode || 0,
+                  ...extraData
+                })
+              }
+
               endTimer({
                 status_code: (req.res && req.res.statusCode) || res.statusCode || 0
               })
