@@ -66,7 +66,7 @@ module.exports = function (sails) {
             res.once('finish', function onceFinish () {
               stats.throughputMetric.inc()
 
-              if (sails.config[hook.configKey].httpMetric.attachOn5xxEnabled) {
+              if (sails.config[hook.configKey].httpMetric.attachOn5xxEnabled && res.statusCode >= 500) {
                 const keys = sails.config[hook.configKey].httpMetric.attachOn5xx
 
                 const extraData = {}
