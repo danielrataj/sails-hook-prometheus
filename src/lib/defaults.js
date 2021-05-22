@@ -22,7 +22,9 @@ module.exports = {
           '\\.(eot|ttf|woff|woff2|svg)$'
         ]
       },
-      urlQueryString: true
+      urlQueryString: true,
+      attachOn5xxEnabled: false,
+      attachOn5xx: ['']
     },
     upMetric: {
       enabled: true,
