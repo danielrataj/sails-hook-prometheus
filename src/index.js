@@ -1,10 +1,11 @@
 const promClient = require('prom-client')
 const normalizePath = require('./lib/normalize-path')
-
+const routeMatcher = require('./lib/route-matcher')
 module.exports = function (sails) {
   let hook
   const stats = {}
   const skipRoutes = ['/metrics']
+  let findRouteByUrl
 
   return {
     defaults: require('./lib/defaults'),
@@ -15,6 +16,7 @@ module.exports = function (sails) {
     },
 
     configure: () => {
+      findRouteByUrl = routeMatcher(sails.config.routes)
       sails.config.policies[sails.config.prometheus.router.identity] = [true]
     },
 
@@ -56,6 +58,9 @@ module.exports = function (sails) {
 
             if (sails.config[hook.configKey].httpMetric.urlQueryString) {
               url = req.url
+            } else if (sails.config[hook.configKey].httpMetric.urlParams === false) {
+              // use route path for metrics if available - so we dont create metric with each unique parameter...
+              url = findRouteByUrl(url) || '/not-resolved'
             }
 
             const endTimer = stats.httpMetric.histogram.startTimer({
@@ -84,7 +89,7 @@ module.exports = function (sails) {
     },
 
     counter: (function () {
-      const counters = { }
+      const counters = {}
 
       return {
         setup ({ name, help, labelNames = [] }) {
@@ -109,7 +114,7 @@ module.exports = function (sails) {
     }()),
 
     gauge: (function () {
-      const gauges = { }
+      const gauges = {}
 
       return {
         setup ({ name, help, labelNames = [] }) {
