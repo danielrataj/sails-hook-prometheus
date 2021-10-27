@@ -60,7 +60,7 @@ module.exports = function (sails) {
               url = req.url
             } else if (sails.config[hook.configKey].httpMetric.urlParams === false) {
               // use route path for metrics if available - so we dont create metric with each unique parameter...
-              url = findRouteByUrl(url) || '/not-resolved'
+              url = findRouteByUrl(url) || '_undefined-route'
             }
 
             const endTimer = stats.httpMetric.histogram.startTimer({
@@ -118,29 +118,28 @@ module.exports = function (sails) {
 
       return {
         setup ({ name, help, labelNames = [] }) {
-          if (gauges[name]) {
-            return
-          }
-          gauges[name] = {
-            _metric: new promClient.Gauge({
-              name,
-              help,
-              labelNames
-            }),
+          if (!gauges[name]) {
+            gauges[name] = {
+              _metric: new promClient.Gauge({
+                name,
+                help,
+                labelNames
+              }),
 
-            inc ({ amount = 1, labels = {} }) {
-              this._metric.inc(labels, amount)
-              return this
-            },
+              inc ({ amount = 1, labels = {} }) {
+                this._metric.inc(labels, amount)
+                return this
+              },
 
-            set ({ amount = 1, labels = {} }) {
-              this._metric.set(labels, amount)
-              return this
-            },
+              set ({ amount = 1, labels = {} }) {
+                this._metric.set(labels, amount)
+                return this
+              },
 
-            dec ({ amount = 1, labels = {} }) {
-              this._metric.dec(labels, amount)
-              return this
+              dec ({ amount = 1, labels = {} }) {
+                this._metric.dec(labels, amount)
+                return this
+              }
             }
           }
 
