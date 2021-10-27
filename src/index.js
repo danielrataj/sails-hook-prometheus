@@ -71,6 +71,7 @@ module.exports = function (sails) {
             res.once('finish', function onceFinish () {
               stats.throughputMetric.inc()
 
+              /* eslint-disable camelcase */
               endTimer({
                 status_code: (req.res && req.res.statusCode) || res.statusCode || 0
               })
@@ -80,10 +81,11 @@ module.exports = function (sails) {
           return next()
         },
         '/metrics': function (req, res, next) {
-          return res
+          res
             .status(200)
             .set('Content-Type', promClient.register.contentType)
             .send(promClient.register.metrics())
+          return next()
         }
       }
     },
