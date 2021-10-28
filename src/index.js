@@ -1,10 +1,11 @@
 const promClient = require('prom-client')
 const normalizePath = require('./lib/normalize-path')
-
+const routeMatcher = require('./lib/route-matcher')
 module.exports = function (sails) {
   let hook
   const stats = {}
   const skipRoutes = ['/metrics']
+  let findRouteByUrl
 
   return {
     defaults: require('./lib/defaults'),
@@ -15,6 +16,7 @@ module.exports = function (sails) {
     },
 
     configure: () => {
+      findRouteByUrl = routeMatcher(sails.config.routes)
       sails.config.policies[sails.config.prometheus.router.identity] = [true]
     },
 
@@ -56,6 +58,9 @@ module.exports = function (sails) {
 
             if (sails.config[hook.configKey].httpMetric.urlQueryString) {
               url = req.url
+            } else if (sails.config[hook.configKey].httpMetric.urlParams === false) {
+              // use route path for metrics if available - so we dont create metric with each unique parameter...
+              url = findRouteByUrl(url) || '_undefined-route'
             }
 
             const endTimer = stats.httpMetric.histogram.startTimer({
@@ -66,6 +71,7 @@ module.exports = function (sails) {
             res.once('finish', function onceFinish () {
               stats.throughputMetric.inc()
 
+              /* eslint-disable camelcase */
               endTimer({
                 status_code: (req.res && req.res.statusCode) || res.statusCode || 0
               })
@@ -75,16 +81,17 @@ module.exports = function (sails) {
           return next()
         },
         '/metrics': function (req, res, next) {
-          return res
+          res
             .status(200)
             .set('Content-Type', promClient.register.contentType)
             .send(promClient.register.metrics())
+          return next()
         }
       }
     },
 
     counter: (function () {
-      const counters = { }
+      const counters = {}
 
       return {
         setup ({ name, help, labelNames = [] }) {
@@ -109,33 +116,32 @@ module.exports = function (sails) {
     }()),
 
     gauge: (function () {
-      const gauges = { }
+      const gauges = {}
 
       return {
         setup ({ name, help, labelNames = [] }) {
-          if (gauges[name]) {
-            return
-          }
-          gauges[name] = {
-            _metric: new promClient.Gauge({
-              name,
-              help,
-              labelNames
-            }),
+          if (!gauges[name]) {
+            gauges[name] = {
+              _metric: new promClient.Gauge({
+                name,
+                help,
+                labelNames
+              }),
 
-            inc ({ amount = 1, labels = {} }) {
-              this._metric.inc(labels, amount)
-              return this
-            },
+              inc ({ amount = 1, labels = {} }) {
+                this._metric.inc(labels, amount)
+                return this
+              },
 
-            set ({ amount = 1, labels = {} }) {
-              this._metric.set(labels, amount)
-              return this
-            },
+              set ({ amount = 1, labels = {} }) {
+                this._metric.set(labels, amount)
+                return this
+              },
 
-            dec ({ amount = 1, labels = {} }) {
-              this._metric.dec(labels, amount)
-              return this
+              dec ({ amount = 1, labels = {} }) {
+                this._metric.dec(labels, amount)
+                return this
+              }
             }
           }
 

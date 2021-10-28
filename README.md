@@ -22,6 +22,7 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
     - [`httpMetric.buckets` (array of numbers)](#httpmetricbuckets-array-of-numbers)
     - [`httpMetric.route.exclude` (array of strings)](#httpmetricrouteexclude-array-of-strings)
     - [`httpMetric.urlQueryString` (boolean)](#httpmetricurlquerystring-boolean)
+    - [`httpMetric.urlParams` (boolean)](#httpmetricurlurlparams-boolean)
     - [`upMetric.enabled` (boolean)](#upmetricenabled-boolean)
     - [`upMetric.name` (string)](#upmetricname-string)
     - [`upMetric.help` (string)](#upmetrichelp-string)
@@ -153,7 +154,7 @@ module.exports.prometheus = {
 }
 ```
 
-Define which routes are exluded from histogram. Every element in array has to be a regular expression.
+Define which routes are excluded from histogram. Every element in array has to be a regular expression.
 
 ### `httpMetric.urlQueryString` (boolean)
 
@@ -166,6 +167,19 @@ module.exports.prometheus = {
 ```
 
 Include URL query params in `path` label. It is `true` by default but please note your Prometheus server might not be ready for this amount of data (every unique URL).
+
+
+### `httpMetric.urlParams` (boolean)
+
+```js
+module.exports.prometheus = {
+  httpMetric: {
+    urlParams: true
+  }
+}
+```
+
+Include URL params in `path` label. It is `true` by default but please note your Prometheus server might not be ready for this amount of data (every unique URL).
 
 ### `upMetric.enabled` (boolean)
 
