@@ -22,7 +22,7 @@ Gather Prometheus metrics for your SailsJS application. Also it will opens `/met
     - [`httpMetric.buckets` (array of numbers)](#httpmetricbuckets-array-of-numbers)
     - [`httpMetric.route.exclude` (array of strings)](#httpmetricrouteexclude-array-of-strings)
     - [`httpMetric.urlQueryString` (boolean)](#httpmetricurlquerystring-boolean)
-    - [`httpMetric.urlParams` (boolean)](#httpmetricurlurlparams-boolean)
+    - [`httpMetric.urlParams` (boolean)](#httpmetricurlparams-boolean)
     - [`upMetric.enabled` (boolean)](#upmetricenabled-boolean)
     - [`upMetric.name` (string)](#upmetricname-string)
     - [`upMetric.help` (string)](#upmetrichelp-string)
